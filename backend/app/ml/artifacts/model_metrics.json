@@ -1,0 +1,109 @@
+{
+  "model_version": "1.0.0-cbe-rf",
+  "model_type": "Random Forest Classifier",
+  "evaluation_timestamp": "2026-10-22T13:46:38.684781+00:00",
+  "training_samples": 1875,
+  "test_samples": 625,
+  "target_region": "Coimbatore, Tamil Nadu, India",
+  "accuracy": 0.8832,
+  "macro_precision": 0.8221,
+  "macro_recall": 0.8771,
+  "macro_f1": 0.8436,
+  "roc_auc_ovr": 0.982,
+  "baseline_accuracy": 0.4,
+  "confusion_matrix": [
+    [
+      21,
+      4,
+      0,
+      0
+    ],
+    [
+      15,
+      159,
+      14,
+      0
+    ],
+    [
+      0,
+      20,
+      218,
+      12
+    ],
+    [
+      0,
+      0,
+      8,
+      154
+    ]
+  ],
+  "classification_report": {
+    "Low": {
+      "precision": 0.5833333333333334,
+      "recall": 0.84,
+      "f1-score": 0.6885245901639344,
+      "support": 25.0
+    },
+    "Moderate": {
+      "precision": 0.8688524590163934,
+      "recall": 0.8457446808510638,
+      "f1-score": 0.8571428571428571,
+      "support": 188.0
+    },
+    "High": {
+      "precision": 0.9083333333333333,
+      "recall": 0.872,
+      "f1-score": 0.889795918367347,
+      "support": 250.0
+    },
+    "Severe": {
+      "precision": 0.927710843373494,
+      "recall": 0.9506172839506173,
+      "f1-score": 0.9390243902439024,
+      "support": 162.0
+    },
+    "accuracy": 0.8832,
+    "macro avg": {
+      "precision": 0.8220574922641385,
+      "recall": 0.8770904912004203,
+      "f1-score": 0.8436219389795102,
+      "support": 625.0
+    },
+    "weighted avg": {
+      "precision": 0.8884801369412074,
+      "recall": 0.8832,
+      "f1-score": 0.884683044333287,
+      "support": 625.0
+    }
+  },
+  "feature_importances": {
+    "rainfall_1h": 0.2175,
+    "elevation_m": 0.1378,
+    "rainfall_trend": 0.1266,
+    "slope_deg": 0.1254,
+    "rainfall_3h": 0.1145,
+    "rainfall_24h": 0.1017,
+    "drainage_capacity_index": 0.0673,
+    "impervious_ratio": 0.0562,
+    "soil_moisture_pct": 0.0531
+  },
+  "feature_names": [
+    "rainfall_1h",
+    "rainfall_3h",
+    "rainfall_24h",
+    "rainfall_trend",
+    "elevation_m",
+    "slope_deg",
+    "drainage_capacity_index",
+    "soil_moisture_pct",
+    "impervious_ratio"
+  ],
+  "risk_classes": [
+    "Low",
+    "Moderate",
+    "High",
+    "Severe"
+  ],
+  "data_provenance": "IMD Historical Coimbatore precipitation norms + CCMC terrain & drainage data",
+  "notes": "Trained with class balancing. Evaluated on stratified 25% held-out test split."
+}
