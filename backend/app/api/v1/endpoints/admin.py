@@ -171,45 +171,93 @@ def seed_database(db: Session = Depends(get_db)):
         db.commit()
 
     # 3. Seed Default Alerts if empty
-    alert_count = db.query(Alert).count()
-    if alert_count == 0:
-        from datetime import datetime, timedelta, timezone
-        now = datetime.now(timezone.utc)
-        sample_alerts = [
-            Alert(
-                id="ALT-20261022-001",
-                alert_code="CBE-WRN-CBE-01",
-                severity="Warning",
-                status="Active",
-                location_id="CBE-01",
-                location_name="Lanka Corner Underpass",
-                title="Railway Underpass Ponding Warning",
-                description="Heavy runoff accumulation detected in Lanka Corner railway subway. Automated pump activated.",
-                reason="Precipitation rate 36.5 mm/h exceeds subway culvert drainage capacity of 22 mm/h.",
-                source_trigger="Automated Nowcast ML Model",
-                triggered_at=now - timedelta(minutes=45),
-                expires_at=now + timedelta(hours=5),
-                cooldown_until=now + timedelta(minutes=60),
-            ),
-            Alert(
-                id="ALT-20261022-002",
-                alert_code="CBE-ADV-CBE-02",
-                severity="Advisory",
-                status="Acknowledged",
-                location_id="CBE-02",
-                location_name="Ukkadam Periyakulam Catchment",
-                title="Lake Surplus Weir Monitoring Advisory",
-                description="Water level in Periyakulam feeder channel is approaching 80% capacity.",
-                reason="Accumulated 24-hour rainfall upstream in Noyyal basin reached 68 mm.",
-                source_trigger="Automated Hydrological Monitor",
-                triggered_at=now - timedelta(hours=2),
-                expires_at=now + timedelta(hours=4),
-                acknowledged_at=now - timedelta(minutes=30),
-                acknowledged_by="Executive Engineer (Water Resources)",
-            ),
-        ]
-        db.add_all(sample_alerts)
-        db.commit()
+    from datetime import datetime, timedelta, timezone
+    now = datetime.now(timezone.utc)
+    sample_alerts = [
+        Alert(
+            id="ALT-20261022-001",
+            alert_code="CBE-WRN-CBE-01",
+            severity="Warning",
+            status="Active",
+            location_id="CBE-01",
+            location_name="Lanka Corner Underpass",
+            title="Railway Underpass Ponding Warning",
+            description="Heavy runoff accumulation detected in Lanka Corner railway subway. Automated pump activated.",
+            reason="Precipitation rate 36.5 mm/h exceeds subway culvert drainage capacity of 22 mm/h.",
+            source_trigger="Automated Nowcast ML Model",
+            triggered_at=now - timedelta(minutes=45),
+            expires_at=now + timedelta(hours=5),
+            cooldown_until=now + timedelta(minutes=60),
+        ),
+        Alert(
+            id="ALT-20261022-002",
+            alert_code="CBE-ADV-CBE-02",
+            severity="Advisory",
+            status="Acknowledged",
+            location_id="CBE-02",
+            location_name="Ukkadam Periyakulam Catchment",
+            title="Lake Surplus Weir Monitoring Advisory",
+            description="Water level in Periyakulam feeder channel is approaching 80% capacity.",
+            reason="Accumulated 24-hour rainfall upstream in Noyyal basin reached 68 mm.",
+            source_trigger="Automated Hydrological Monitor",
+            triggered_at=now - timedelta(hours=2),
+            expires_at=now + timedelta(hours=4),
+            acknowledged_at=now - timedelta(minutes=30),
+            acknowledged_by="Executive Engineer (Water Resources)",
+        ),
+        Alert(
+            id="ALT-20261026-003",
+            alert_code="CBE-EMG-CBE-11",
+            severity="Emergency",
+            status="Active",
+            location_id="CBE-11",
+            location_name="Sivananda Colony Railway Underpass",
+            title="Severe Railway Subway Inundation Flash Warning",
+            description="Subway water depth reached 85cm. Traffic barricades deployed; motorized pumps running at 4500 LPM.",
+            reason="Continuous rainfall intensity 52 mm/h with 90% catchment impervious runoff.",
+            source_trigger="Automated IoT Water Level Sensor",
+            triggered_at=now - timedelta(minutes=15),
+            expires_at=now + timedelta(hours=6),
+            cooldown_until=now + timedelta(minutes=45),
+        ),
+        Alert(
+            id="ALT-20261026-004",
+            alert_code="CBE-WCH-CBE-05",
+            severity="Watch",
+            status="Resolved",
+            location_id="CBE-05",
+            location_name="Singanallur Lake & Trichy Rd",
+            title="Trichy Road Backflow Watch",
+            description="Temporary water accumulation near arterial highway cleared by CCMC emergency teams.",
+            reason="Slight lake backflow after 45mm rain event; drain desilting completed.",
+            source_trigger="CCMC Stormwater Control Room",
+            triggered_at=now - timedelta(hours=8),
+            expires_at=now + timedelta(hours=1),
+            acknowledged_at=now - timedelta(hours=7),
+            acknowledged_by="Divisional Engineer (Highways)",
+            resolved_at=now - timedelta(hours=1),
+        ),
+        Alert(
+            id="ALT-20261026-005",
+            alert_code="CBE-WRN-CBE-14",
+            severity="Warning",
+            status="Active",
+            location_id="CBE-14",
+            location_name="Sundarapuram / Kurichi Kulam Basin",
+            title="Kurichi Lake Peripheral Sluice Inflow Warning",
+            description="Upstream catchment runoff entering lake has increased by 140%. Ground-level sluices opened.",
+            reason="3-hour rainfall 48.0mm in South Coimbatore belt.",
+            source_trigger="Automated Nowcast ML Model",
+            triggered_at=now - timedelta(minutes=30),
+            expires_at=now + timedelta(hours=4),
+            cooldown_until=now + timedelta(minutes=60),
+        ),
+    ]
+    for a in sample_alerts:
+        existing = db.query(Alert).filter(Alert.id == a.id).first()
+        if not existing:
+            db.add(a)
+    db.commit()
 
     return {
         "success": True,
